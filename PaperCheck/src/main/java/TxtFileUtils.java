@@ -15,7 +15,6 @@ public class TxtFileUtils {
                 content.append(line).append(System.lineSeparator());
             }
         } catch (IOException e) {
-            //System.err.println("读取文件出错: " + e.getMessage());
             throw new RuntimeException(ExceptionEnums.FILE_READ_ERROR);
         }
         return content.toString();
