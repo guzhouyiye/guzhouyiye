@@ -1,4 +1,6 @@
 import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.seg.common.Term;
+
 import java.util.List;
 
 public class SimHashUtils {
@@ -8,13 +10,17 @@ public class SimHashUtils {
      * @return SimHash值的二进制字符串表示
      */
     public static String getSimHash(String str) {
-        //对文本进行分词
-        List<String> keywords = HanLP.extractKeyword(str, str.length());
-        //生成哈希值的基本值
+
+        // 使用 HanLP 分词
+        List<Term> terms = HanLP.segment(str);  // 分词，得到每个词的词元（Term）
+
+        // 生成哈希值的基本值
         long[] hashBits = new long[64];
-        
-        for (String keyword : keywords) {
-            String hash = getHash(keyword);
+
+        // 遍历每个分词的词元
+        for (Term term : terms) {
+            String word = term.word;  // 获取词
+            String hash = getHash(word);  // 对词生成哈希
             for (int i = 0; i < hash.length(); i++) {
                 if (hash.charAt(i) == '1') {
                     hashBits[i] += 1;
@@ -23,6 +29,23 @@ public class SimHashUtils {
                 }
             }
         }
+
+
+//        //对文本进行分词
+//        List<String> keywords = HanLP.extractKeyword(str, str.length());
+//        //生成哈希值的基本值
+//        long[] hashBits = new long[64];
+//
+//        for (String keyword : keywords) {
+//            String hash = getHash(keyword);
+//            for (int i = 0; i < hash.length(); i++) {
+//                if (hash.charAt(i) == '1') {
+//                    hashBits[i] += 1;
+//                } else {
+//                    hashBits[i] -= 1;
+//                }
+//            }
+//        }
 
         //生成最终的SimHash值
         StringBuilder simHash = new StringBuilder();
