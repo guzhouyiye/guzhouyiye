@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-public class PlagiarismCheckTest {
+public class PaperCheckTest {
 
     //无参数输入
     @Test
